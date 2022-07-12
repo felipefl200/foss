@@ -5,14 +5,15 @@ import Image from 'next/image'
 import LogoIcon from "../components/svgs/logo.png"
 import GoogleIcon from "../components/svgs/google.svg"
 import FacebookIcon from "../components/svgs/facebook.svg"
-import EmailIcon from "../components/svgs/email.svg"
-import LockIcon from "../components/svgs/lock.svg"
+
 import CircleLeftIcon from "../components/svgs/circle-left.svg"
 import CircleRightIcon from "../components/svgs/circle-right.svg"
+import FormCreate from '../components/FormCreate'
 
 const Home: NextPage = () => {
-  return (
+  return (    
     <div className="flex justify-between min-h-screen font-sans">
+      <Head><title>FOSS Porto Alegre - 2022</title></Head>
       <div
         className="hidden relative w-1/2 bg-center bg-cover lg:block bg-foss-100"
         style={{ backgroundImage: `url(${LogoIcon.src})` }}
@@ -76,63 +77,8 @@ const Home: NextPage = () => {
               <span className="px-4 font-light tracking-wider text-gray-500">ou</span>
               <hr className="w-full border-gray-400" />
             </div>
-            <form action="">
-              <div className="pt-6">
-                <label className="font-light">Informe seu nome</label>
-                <div
-                  className="flex overflow-hidden items-center mt-2 w-full rounded-lg border border-gray-400 transition-all focus-within:shadow-lg focus-within:border-green-500"
-                >
-                  <div className="flex justify-center items-center pl-6">
-                    <Image src={LockIcon} className="w-6 h-6 pointer-events-none" />
-                  </div>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="O nome informado aqui irá no certificado"
-                    className="px-4 py-4.5 w-full focus:outline-none font-light border-0 focus:ring-0"
-                  />
-                </div>
-              </div>
-              <div className="pt-6">
-                <label className="font-light">Email</label>
-                <div
-                  className="flex overflow-hidden items-center mt-2 w-full rounded-lg border border-gray-400 transition-all focus-within:shadow-lg focus-within:border-green-500"
-                >
-                  <div className="flex justify-center items-center pl-6">
-                    <Image src={EmailIcon} className="w-6 h-6 pointer-events-none" />
-                  </div>
-                  <input
-                    type="text"
-                    name="email"
-                    id="email"
-                    placeholder='Informe seu email'
-                    className="px-4 py-4.5 w-full focus:outline-none font-light border-0 focus:ring-0"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-between items-center pt-4">
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    name="remember"
-                    id="remember"
-                    className="w-5 h-5 text-foss-100 bg-white rounded border border-gray-400 focus:outline-none focus:ring-green-500"
-                  />
-                  <label className="pl-4 font-light text-gray-900">
-                    Quero receber novidades da FOSS Porto Alegre
-                  </label>
-                </div>
-
-              </div>
-              <div className="pt-8">
-                <button
-                  type="submit"
-                  className="py-4 px-8 w-full text-white bg-foss-100 rounded-lg shadow-lg hover:bg-green-600 focus:ring-4 focus:ring-green-100 focus:outline-none"
-                >
-                  Quero me cadastrar
-                </button>
-              </div>
-            </form>
+            <FormCreate />
+          
             <div className="pt-4">
               <div className="font-light text-center text-gray-500">
                 Quer cancelar sua inscrição?
