@@ -11,13 +11,20 @@ import CircleRightIcon from "../components/svgs/circle-right.svg"
 import FormCreate from '../components/FormCreate'
 
 const Home: NextPage = () => {
-  return (    
+  return (
     <div className="flex justify-between min-h-screen font-sans">
       <Head><title>FOSS Porto Alegre - 2022</title></Head>
       <div
         className="hidden relative w-1/2 bg-center bg-cover lg:block bg-foss-100"
-        style={{ backgroundImage: `url(${LogoIcon.src})` }}
       >
+        <div className='absolute inset-0 top-1/4 max-w-3xl mx-auto'>
+          <Image
+            src={LogoIcon}
+            layout='responsive'
+            width={LogoIcon.width}
+            height={LogoIcon.height}
+          />
+        </div>
         <div className="flex absolute bottom-20 justify-center w-full">
           <div className="max-w-md text-center">
             <span className="text-3xl font-bold leading-loose text-gray-900">
@@ -44,8 +51,8 @@ const Home: NextPage = () => {
       </div>
       <div className="flex-1 mx-auto max-w-2xl">
         <div className="flex flex-col px-8 pt-10 lg:px-14 xl:px-24">
-          <div className="self-center w-32 md:self-end">
-            <Image src={LogoIcon} className="self-center" />
+          <div className="self-center w-32 md:self-center">
+            <Image src={LogoIcon} />
           </div>
           <div className="pt-20 pb-6">
             <h1 className="text-3xl font-bold tracking-wide leading-loose whitespace-nowrap">
@@ -58,17 +65,22 @@ const Home: NextPage = () => {
               className="flex flex-wrap gap-y-4 gap-x-6 justify-between items-center pt-10 whitespace-nowrap"
             >
               <button
-                className="flex items-center justify-center flex-1 py-4.5 px-3 rounded-lg bg-white border border-gray-400 whitespace-nowrap hover:bg-gray-50 focus:outline-none focus:ring-gray-100 focus:ring-4"
+                className="flex items-center w6 justify-center flex-1 py-4.5 px-3 rounded-lg bg-white border border-gray-400 whitespace-nowrap hover:bg-gray-50 focus:outline-none focus:ring-gray-100 focus:ring-4"
               >
-                <Image src={GoogleIcon} className="w-6 h-6" />
+
+                <Image src={GoogleIcon} layout='fixed'
+                  width={24}
+                  height={24}
+                />
 
                 <span className="pl-3 font-medium text-gray-900">Entrar com o Google</span>
               </button>
               <button
                 className="flex items-center justify-center flex-1 py-4.5 px-3 rounded-lg bg-blue-500 whitespace-nowrap hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-gray-100"
               >
-                {/* <FacebookIcon className="w-6 h-6" /> */}
-                <Image src={FacebookIcon} className="w-6 h-6" />
+
+                <Image src={FacebookIcon} layout='fixed' />
+
                 <span className="pl-3 font-medium text-white">Entrar com o Facebook</span>
               </button>
             </div>
@@ -78,7 +90,7 @@ const Home: NextPage = () => {
               <hr className="w-full border-gray-400" />
             </div>
             <FormCreate />
-          
+
             <div className="pt-4">
               <div className="font-light text-center text-gray-500">
                 Quer cancelar sua inscrição?

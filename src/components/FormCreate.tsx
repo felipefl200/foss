@@ -4,7 +4,6 @@ import LockIcon from '../components/svgs/lock.svg'
 import { useForm } from 'react-hook-form'
 import api from '../lib/axios'
 
-
 type FormData = {
     name: String
     email: String
@@ -12,15 +11,25 @@ type FormData = {
 }
 
 function FormCreate() {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<FormData>()
     const handleAddParticipant = handleSubmit(data => {
         api.post('http://localhost:3000/api/createParticipant', data)
             .then(resp => {
-                
                 reset()
             })
             .catch(error => {
-                console.log(error)
+                if (error.response.status === 422) {
+                    setError('email', { type: 'string', message: error.response.data.message })
+                }
+
+                if (error.response.status === 400) {
+                    let data = error.response.data.issues
+                    console.log(data)
+                    data.forEach(function (data: any) {
+                        let name = data.path[0]
+                        setError(name, { type: data.type, message: data.message })
+                    })
+                }
             })
     });
 
@@ -35,14 +44,16 @@ function FormCreate() {
                         <Image src={LockIcon} className="w-6 h-6 pointer-events-none" />
                     </div>
                     <input
-                        {...register('name', {required: true})}
+                        {...register('name', { required: true })}
                         type="text"
                         name="name"
                         placeholder="O nome informado aqui irá no certificado"
                         className="px-4 py-4.5 w-full focus:outline-none font-light border-0 focus:ring-0"
                     />
                 </div>
-                {errors.name && <p className='text-xs italic text-foss-100 pl-2 pt-2'>O campo nome é necessário</p>}
+
+                {errors.name && <p className='text-xs italic text-foss-100 pl-2 pt-2'>{errors.name.message}</p>}
+
             </div>
             <div className="pt-6">
                 <label className="font-light">Email</label>
@@ -61,18 +72,17 @@ function FormCreate() {
                         className="px-4 py-4.5 w-full focus:outline-none font-light border-0 focus:ring-0"
                     />
                 </div>
-                    {errors.email && <p className='text-xs italic text-foss-100 pl-2 pt-2'>O campo email é necessário</p>}
+                {errors.email && <p className='text-xs italic text-foss-100 pl-2 pt-2'>{errors.email.message}</p>}
             </div>
             <div className="flex justify-between items-center pt-4">
                 <div className="flex items-center">
                     <input
                         {...register('news')}
                         type="checkbox"
-                        name="remember"
                         id="remember"
                         className="w-5 h-5 text-foss-100 bg-white rounded border border-gray-400 focus:outline-none focus:ring-green-500"
                     />
-                    <label className="pl-4 font-light text-gray-900">
+                    <label htmlFor='remember' className="pl-4 font-light text-gray-900">
                         Quero receber novidades da FOSS Porto Alegre
                     </label>
                 </div>
