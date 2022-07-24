@@ -13,7 +13,7 @@ type FormData = {
 function FormCreate() {
     const { register, handleSubmit, reset, setError, formState: { errors } } = useForm<FormData>()
     const handleAddParticipant = handleSubmit(data => {
-        api.post('http://localhost:3000/api/createParticipant', data)
+        api.post('/api/createParticipant', data)
             .then(resp => {
                 reset()
             })
@@ -95,7 +95,6 @@ function FormCreate() {
                     Quero me cadastrar
                 </button>
             </div>
-            {/* { && <p className='text-foss-100 text-center pt-2'>{}</p>} */}
         </form>
     )
 }

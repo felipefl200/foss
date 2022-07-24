@@ -1,16 +1,32 @@
 import type { NextPage } from 'next'
+import { useEffect } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
+import { signIn, getSession } from 'next-auth/react'
 
-import LogoIcon from "../components/svgs/logo.png"
-import GoogleIcon from "../components/svgs/google.svg"
-import FacebookIcon from "../components/svgs/facebook.svg"
-
-import CircleLeftIcon from "../components/svgs/circle-left.svg"
-import CircleRightIcon from "../components/svgs/circle-right.svg"
 import FormCreate from '../components/FormCreate'
 
+import LogoIcon from '../components/svgs/logo.png'
+import GoogleIcon from '../components/svgs/google.svg'
+import FacebookIcon from '../components/svgs/facebook.svg'
+
+import CircleLeftIcon from '../components/svgs/circle-left.svg'
+import CircleRightIcon from '../components/svgs/circle-right.svg'
+import api from '../lib/axios'
+
 const Home: NextPage = () => {
+
+  const hasSession = async () => {
+    let cod = await getSession()
+    if (cod?.user) {
+      api.post('/api/createParticipant', { name: cod.user.name, email: cod.user.email })
+    }
+  }
+
+  useEffect(() => {
+    hasSession()
+  })
+
   return (
     <div className="flex justify-between min-h-screen font-sans">
       <Head><title>FOSS Porto Alegre - 2022</title></Head>
@@ -28,7 +44,7 @@ const Home: NextPage = () => {
         <div className="flex absolute bottom-20 justify-center w-full">
           <div className="max-w-md text-center">
             <span className="text-3xl font-bold leading-loose text-gray-900">
-              Aqui pensei em colocar um vídeo ou imagem
+              FREE AND OPEN SOURCE SOFTWARE
             </span>
             <p className="font-light leading-7 text-gray-300">
               Palestras sobre tecnologia, Software Livre e Open Source.
@@ -36,12 +52,12 @@ const Home: NextPage = () => {
             </p>
             <div className="flex justify-center items-center pt-8 space-x-6">
               <button
-                className="rounded-full focus:ring focus:ring-green-500 focus:outline-none"
+                className="rounded-full focus:ring-2 m-0 p-0 px-1"
               >
-                <Image src={CircleLeftIcon} />
+                <Image src={CircleLeftIcon} layout='fixed' />
               </button>
               <button
-                className="rounded-full focus:ring focus:ring-green-500 focus:outline-none"
+                className="rounded-full"
               >
                 <Image src={CircleRightIcon} />
               </button>
@@ -64,7 +80,7 @@ const Home: NextPage = () => {
             <div
               className="flex flex-wrap gap-y-4 gap-x-6 justify-between items-center pt-10 whitespace-nowrap"
             >
-              <button
+              <button onClick={() => signIn('google')}
                 className="flex items-center w6 justify-center flex-1 py-4.5 px-3 rounded-lg bg-white border border-gray-400 whitespace-nowrap hover:bg-gray-50 focus:outline-none focus:ring-gray-100 focus:ring-4"
               >
 
@@ -75,10 +91,9 @@ const Home: NextPage = () => {
 
                 <span className="pl-3 font-medium text-gray-900">Entrar com o Google</span>
               </button>
-              <button
-                className="flex items-center justify-center flex-1 py-4.5 px-3 rounded-lg bg-blue-500 whitespace-nowrap hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-gray-100"
+              <button onClick={() => signIn('facebook')} className="flex items-center justify-center flex-1 py-4.5 px-3 rounded-lg bg-blue-500 whitespace-nowrap hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-gray-100"
               >
-
+                {/* <img src={FacebookIcon.src} className='w-6 h-6' alt="" /> */}
                 <Image src={FacebookIcon} layout='fixed' />
 
                 <span className="pl-3 font-medium text-white">Entrar com o Facebook</span>
