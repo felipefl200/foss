@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { signIn, getSession } from 'next-auth/react'
@@ -15,6 +15,7 @@ import CircleRightIcon from '../components/svgs/circle-right.svg'
 import api from '../lib/axios'
 
 const Home: NextPage = () => {
+  const [hasRegistration, setHasRegistration] = useState(true)
 
   const hasSession = async () => {
     let cod = await getSession()
@@ -66,11 +67,25 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div className="flex-1 mx-auto max-w-2xl">
-        <div className="flex flex-col px-8 pt-10 lg:px-14 xl:px-24">
+        <div className="flex flex-col h-full justify-around px-8 pt-10 lg:px-14 xl:px-24">
           <div className="self-center w-32 md:self-center">
             <Image src={LogoIcon} />
           </div>
-          <div className="pt-20 pb-6">
+          {/* Já tem cadastro */}
+          <div className="bg-foss-100 rounded-md ">
+            <div className='border-2 rounded-md border-green-600 m-2 p-2'>
+              <p className='text-white text-2xl'>
+                Parece que você já tem cadastro!
+              </p>
+              <span className='text-gray-100 text-sm leading-tight'>Não se preocupe em breve você receberá mais informações sobre o evento.</span>
+              <div className='text-gray-100 text-sm leading-tight mt-4'>Caso deseje saber mais sobre seu cadastro, por favor entre em contato com um dos administradores.</div>
+              <ul className='list-disc list-inside mt-4 text-sm text-white space-y-1'>
+                <li><a className='hover:text-green-400' href="mailto:teste@teste.com.br">teste@teste.com.br</a></li>
+                <li><a className='hover:text-blue-400' href="https://t.me/flisolpoars">Grupo de Telegram</a></li>
+              </ul>
+            </div>
+          </div>
+          {/* <div className="pt-20 pb-6">
             <h1 className="text-3xl font-bold tracking-wide leading-loose whitespace-nowrap">
               Olá, seja bem vindo(a)!
             </h1>
@@ -84,16 +99,13 @@ const Home: NextPage = () => {
                 className="flex items-center w6 justify-center flex-1 py-4.5 px-3 rounded-lg bg-white border border-gray-400 whitespace-nowrap hover:bg-gray-50 focus:outline-none focus:ring-gray-100 focus:ring-4"
               >
 
-                <Image src={GoogleIcon} layout='fixed'
-                  width={24}
-                  height={24}
-                />
+                <Image src={GoogleIcon} layout='fixed' width={24} height={24} />
 
                 <span className="pl-3 font-medium text-gray-900">Entrar com o Google</span>
               </button>
               <button onClick={() => signIn('facebook')} className="flex items-center justify-center flex-1 py-4.5 px-3 rounded-lg bg-blue-500 whitespace-nowrap hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-gray-100"
               >
-                {/* <img src={FacebookIcon.src} className='w-6 h-6' alt="" /> */}
+
                 <Image src={FacebookIcon} layout='fixed' />
 
                 <span className="pl-3 font-medium text-white">Entrar com o Facebook</span>
@@ -124,7 +136,7 @@ const Home: NextPage = () => {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
