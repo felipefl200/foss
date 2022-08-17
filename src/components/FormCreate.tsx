@@ -3,6 +3,7 @@ import EmailIcon from '../components/svgs/email.svg'
 import LockIcon from '../components/svgs/lock.svg'
 import { useForm } from 'react-hook-form'
 import api from '../lib/axios'
+import { setCookie } from 'nookies'
 
 type FormData = {
     name: String
@@ -15,16 +16,25 @@ function FormCreate() {
     const handleAddParticipant = handleSubmit(data => {
         api.post('/api/createParticipant', data)
             .then(resp => {
+                setCookie(null, 'FOSSPOA-2022', 'true', {
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/',
+                })
                 reset()
             })
             .catch(error => {
                 if (error.response.status === 422) {
                     setError('email', { type: 'string', message: error.response.data.message })
+                    setTimeout(() => {
+                        setCookie(null, 'FOSSPOA-2022', 'true', {
+                            maxAge: 30 * 24 * 60 * 60,
+                            path: '/',
+                        })
+                    }, 4000)
                 }
 
                 if (error.response.status === 400) {
-                    let data = error.response.data.issues
-                    console.log(data)
+                    let data = error.response.data.issues                    
                     data.forEach(function (data: any) {
                         let name = data.path[0]
                         setError(name, { type: data.type, message: data.message })
@@ -34,7 +44,7 @@ function FormCreate() {
     });
 
     return (
-        <form action="" onSubmit={handleAddParticipant}>
+        <form onSubmit={handleAddParticipant}>
             <div className="pt-6">
                 <label className="font-light">Informe seu nome</label>
                 <div
